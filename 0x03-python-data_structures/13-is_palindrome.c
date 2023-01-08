@@ -1,37 +1,51 @@
 #include "lists.h"
+#include <stdlib.h>
+#include <stdio.h>
 /**
  * is_palindrome - prints all elements of a listint_t list
  * @head: pointer to head of list
+ *
+ * Description: check if value singly linked list is palindrome
  * Return: number of nodes
  */
-
 int is_palindrome(listint_t **head)
 {
-	listint_t *temp = *head, *temp2 = *head;
-	int array[5000];
-	int len, j, i;
+	listint_t *ptr;
+	int count = 0, count2 = 0, half;
+	int *buf = NULL;
 
 	if (!head)
 		return (0);
-	if (!*head || ((*head)->next == NULL))
+	if (!*head)
 		return (1);
-
-	for (len = 0; temp2->next != NULL; len++)
+	ptr = *head;
+	while (ptr && ptr->next)
 	{
-		temp2 = temp2->next;
+		ptr = ptr->next;
+		count++;
 	}
-	for (i = 0; i <= len; i++)
-	{
-		array[i] = temp->n;
-		temp = temp->next;
-	}
+	buf = malloc(sizeof(int) * count);
+	if (!buf)
+		return (0);
 
-	for (j = 0, len; j < len; j++, len--)
+	ptr = *head;
+	count = 0;
+	while (ptr)
 	{
-		if (array[j] != array[len])
-		{
+		buf[count] = ptr->n;
+		count++;
+		ptr = ptr->next;
+	}
+	half = count / 2;
+
+	while (half)
+	{
+		if (buf[count2] != buf[count - 1])
 			return (0);
-		}
+		half--;
+		count2++;
+		count--;
 	}
+	free(buf);
 	return (1);
 }
